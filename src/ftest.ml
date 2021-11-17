@@ -25,7 +25,8 @@ let () =
   let graph = from_file infile in
 
   (* Rewrite the graph that has been read. *)
-  let new_gr= clone_nodes graph in 
+
+  let new_gr= gmap graph (fun x -> "12") in 
 
   let () = write_file outfile new_gr in
  
