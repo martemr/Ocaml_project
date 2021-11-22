@@ -26,9 +26,13 @@ let () =
 
   (* Rewrite the graph that has been read. *)
 
-  let new_gr= gmap graph (fun x -> "12") in 
+  let new_gr= gmap graph (int_of_string) in 
 
-  let () = write_file outfile new_gr in
+  let new_gr1=add_arc new_gr 0 2 100 in
+
+  let new_gr2= gmap new_gr1 (string_of_int) in 
+
+  let () = write_file outfile new_gr2 in
  
   ()
   (* *)
