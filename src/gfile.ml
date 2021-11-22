@@ -112,3 +112,19 @@ let from_file path =
   close_in infile ;
   final_graph
   
+
+(*let convert_string_svg id1 id2 lbl = (string_of_int id1) ^ " -> " ^ (string_of_int id2) ^ " [label = \"" ^ lbl ^ "\"];\n"*)
+
+let export gr out_path =
+  (* Open a write-file. *)
+  let ff = open_out out_path in
+
+  (* Write in this file. *)
+  fprintf ff "digraph finite_state_machine {\n  rankdir=LR;\n  size=\"8,5\"\n  node [shape = circle] \n";
+
+  e_iter gr (fun id1 id2 lbl -> fprintf ff "  %d -> %d [label = \"%s\"];\n" id1 id2 lbl);
+
+  fprintf ff "\n}\n";
+  
+  close_out ff;;
+  

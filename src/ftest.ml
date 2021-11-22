@@ -32,8 +32,8 @@ let () =
 
   let new_gr2= gmap new_gr1 (string_of_int) in 
 
-  let () = write_file outfile new_gr2 in
+  let () = export new_gr2 outfile in
  
-  ()
+  ();;
   (* *)
 
