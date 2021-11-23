@@ -3,4 +3,5 @@
 
 open Graph
 
-val dfs: 'a graph -> path 
+(* Type de retour : Liste d'arcs de type : (source, destination, (flot,flot_max)) *)
+val dfs: 'a graph -> 'b 
