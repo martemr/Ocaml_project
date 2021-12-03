@@ -2,11 +2,13 @@ open Gfile
 open Tools
 open Dfs
 open Printf
+open FordFulkerson
 
 
-let print_path p output_path =
-  let ff = open_out output_path in
-  fprintf ff "test" ;;
+
+(* let print_path p output_path =     *)
+(*   let ff = open_out output_path in *)
+(*   fprintf ff "test" ;;             *)
 
 let () =
 
@@ -23,18 +25,28 @@ let () =
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(4)
 
-  (* These command-line arguments are not used for the moment. *)
-  and _source = int_of_string Sys.argv.(2)
-  and _sink = int_of_string Sys.argv.(3)
+  and source = int_of_string Sys.argv.(2)
+  and sink = int_of_string Sys.argv.(3)
   in
 
   (* Open file *)
   let graph = from_file infile in
 
   (* Rewrite the graph that has been read. *)
+  (*let graph1 = gmap graph (fun a -> (0,(int_of_string a))) in
 
-  let new_gr= gmap graph (int_of_string) in 
+  let result_dfs = dfs graph1 source sink in
+  let () = printOptionList result_dfs in*)
+  
+  let new_gr = fordFulkerson graph source sink in 
 
+  let convert_string graph = 
+      gmap graph (fun (a,b) -> ("("^(string_of_int a)^","^(string_of_int b)^")")) in
+  
+  
+  let () = export (convert_string new_gr) outfile in
+
+  
   (* let new_gr1=add_arc new_gr 0 2 100 in
 
   let new_gr2= gmap new_gr1 (string_of_int) in 

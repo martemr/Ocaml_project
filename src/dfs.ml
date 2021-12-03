@@ -6,13 +6,6 @@ open Graph
     Dans les autres cas, le chemin est dans les deux sens.
  *)
 
-(* 
- * 
- * 
- * 
- * 
- *)
-
 (* Called like find_not_marked_son graph node (out_arcs g node) marked_nodes *)
 (** Get the first son not marked. *)
 let rec find_not_marked_son g father_node son_list marked_nodes =
@@ -27,9 +20,9 @@ let dfs g source dest =
     let rec loop g source dest marked_nodes acu = 
         match find_not_marked_son g source (out_arcs g source) marked_nodes with (* premier fils *)
             | None -> None (** Noeud puits *)
-            | Some x -> if x=dest then Some acu else loop g x dest (x::marked_nodes) (x::acu)
+            | Some x -> if x=dest then Some ((source,x)::acu) else loop g x dest (x::marked_nodes) ((source,x)::acu)
     in 
-        loop g source dest [] [];;
+        loop g source dest [source] [];;
 
 
 

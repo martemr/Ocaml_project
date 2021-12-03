@@ -26,7 +26,7 @@ test:
 	@echo "\n==== COMPILING ====\n"
 	ocamlbuild ftest.native
 	@echo "\n==== TEST ====\n"
-	./ftest.native graphs/graph1.txt 1 2 outfile
+	./ftest.native graphs/graph1.txt 0 5 outfile
 	@echo "\n==== RESULT ==== (content of outfile) \n"
 	@cat outfile
 	@echo "\n==== CREATION DU GRAPH ==== (content of outfile) \n"
