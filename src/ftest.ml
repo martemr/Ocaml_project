@@ -39,12 +39,17 @@ let () =
   let () = printOptionList result_dfs in*)
   
   let new_gr = fordFulkerson graph source sink in 
+  (*let init_gr = init_graph graph in *)
 
   let convert_string graph = 
-      gmap graph (fun (a,b) -> ("("^(string_of_int a)^","^(string_of_int b)^")")) in
+      gmap graph (fun (a,b) -> ((string_of_int a)^"/"^(string_of_int b))) in
   
   
-  let () = export (convert_string new_gr) outfile in
+  (*  let () = export (convert_string new_gr) outfile in *)
+
+  let () = write_file (outfile^".txt") (convert_string new_gr) in 
+
+(***TODO : Ecrire dans un fichier  *)
 
   
   (* let new_gr1=add_arc new_gr 0 2 100 in

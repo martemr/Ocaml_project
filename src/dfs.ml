@@ -8,12 +8,19 @@ open Graph
 
 (* Called like find_not_marked_son graph node (out_arcs g node) marked_nodes *)
 (** Get the first son not marked. *)
+
+let convert_option arc =
+    match arc with
+        | Some z -> z
+        | None -> (-1,10000);;
+
 let rec find_not_marked_son g father_node son_list marked_nodes =
     match son_list with
         | [] -> None
-        | (x,y)::rest -> 
-            if List.mem x marked_nodes then find_not_marked_son g father_node rest marked_nodes
-            else Some x ;;
+        | (x,(flot,flotmax))::rest -> 
+                if (List.mem x marked_nodes || (flot == flotmax)) then find_not_marked_son g father_node rest marked_nodes
+                else Some x ;;
+
 
 (* Source et dest sont des id de nodes*)
 let dfs g source dest =

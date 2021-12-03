@@ -4,4 +4,4 @@
 open Graph
 
 (* Type de retour : Liste d'arcs de type : (source, destination, (flot,flot_max)) *)
-val dfs: 'a graph -> id -> id -> (id * id) list option
+val dfs: (id * id) graph -> id -> id -> (id * id) list option

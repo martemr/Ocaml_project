@@ -24,8 +24,9 @@ let convert_path gr l =
         |Some l -> let rec aux gr l =
                     (match l with
                         | [] -> []
-                        | ((current,dest)::tl)->(current,dest,(convert_option (find_arc gr current dest)))::(aux gr tl) )
-                        in aux gr l;;
+                        | ((current,dest)::tl)->let (a,b) = convert_option (find_arc gr current dest) in (Printf.printf "(s:%d,d:%d,(f:%d,fm:%d))" current dest a b)
+                        ;(current,dest,(convert_option (find_arc gr current dest)))::(aux gr tl)
+                        )in aux gr l;;
 
 (* let rec convert_path gr l =
     match l with
@@ -37,7 +38,7 @@ let convert_path gr l =
 let rec find_min_incr gr l = 
     match l with
         [] -> 999999
-        | [(current,dest,(flot,flotmax))]-> flotmax-flot
+        | [(current,dest,(flot,flotmax))]-> (Printf.printf "flow: (%d,%d)\n" flotmax flot); flotmax-flot 
         |(current,dest,(flot,flotmax))::tl->min (flotmax-flot) (find_min_incr gr tl);;
 
 let maj_graph gr source dest l=
