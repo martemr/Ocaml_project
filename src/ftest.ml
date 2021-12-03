@@ -1,5 +1,12 @@
 open Gfile
 open Tools
+open Dfs
+open Printf
+
+
+let print_path p output_path =
+  let ff = open_out output_path in
+  fprintf ff "test" ;;
 
 let () =
 
@@ -28,12 +35,20 @@ let () =
 
   let new_gr= gmap graph (int_of_string) in 
 
-  let new_gr1=add_arc new_gr 0 2 100 in
+  (* let new_gr1=add_arc new_gr 0 2 100 in
 
   let new_gr2= gmap new_gr1 (string_of_int) in 
 
   let () = export new_gr2 outfile in
- 
-  ();;
+
+  ()
+
+  *)
+
+  (*let () = dfs new_gr 0 5 in
+
+  let () = print_path l output in*)
+
+  ()
   (* *)
 
