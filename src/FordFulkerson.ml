@@ -36,7 +36,18 @@ let maj_graph gr source dest l=
             |(s,d,(flot,flot_max))::tl->aux (new_arc (new_arc gr s d (flot+i,flot_max) d s (flot_max-flot-i,flot_max)) tl i in
          aux gr lbis i;;
 
-let FordFulkerson gr0 source dest=
+let FordFulkerson_iter gr source dest=
+    let gr0 = ref (init_graph gr0) in
+     let gr1 = create_reverse_edges gr0 in 
+     let aux gr source dest = 
+        let l = dfs gr source dest in
+         match l with
+            None->gr
+            |l->aux (maj_graph gr source dest l) source dest in 
+    aux gr1 source dest;;
+    
+
+let FordFulkerson_iter gr0 source dest=
     let gr = ref (init_graph gr0) in
      gr := create_reverse_edges gr;
       let l = ref (dfs !gr source dest) in
