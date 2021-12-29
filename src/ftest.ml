@@ -4,9 +4,8 @@ open Dfs
 open Printf
 open FordFulkerson
 
-
-let () =
-
+let test_function graph =
+  
   (* Check the number of command-line arguments *)
   if Array.length Sys.argv <> 5 then
     begin
@@ -16,15 +15,11 @@ let () =
 
 
   (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
-  let infile = Sys.argv.(1)
-  and outfile = Sys.argv.(4)
+  let outfile = Sys.argv.(4)
 
   and source = int_of_string Sys.argv.(2)
-  and sink = int_of_string Sys.argv.(3)
+  and sink   = int_of_string Sys.argv.(3)
   in
-
-  (* Open file *)
-  let graph = from_file infile in
 
   (** Calcule le fordFulkerson *)
   let new_gr = fordFulkerson graph source sink in 
@@ -34,10 +29,19 @@ let () =
       gmap graph (fun (a,b) -> ((string_of_int a)^sep^(string_of_int b))) in 
   
   
-  let () =  export (convert_string new_gr "/") outfile; (* Exporte le fichier au format pour créer le svg*)
-            write_file (outfile^".txt") (convert_string new_gr " ") (*Exporte le fichier au format txt pour l'affichage via site web *)
-            in
+  export (convert_string new_gr "/") outfile; (* Exporte le fichier au format pour créer le svg*)
+  write_file (outfile^".txt") (convert_string new_gr " ") (*Exporte le fichier au format txt pour l'affichage via site web *)
+;;
 
+
+(*
+let () =
+
+  (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
+  let infile = Sys.argv.(1) in
+ 
+  (* Open file *)
+  let () = test_function (from_file infile) in
 
   ()
-
+*)

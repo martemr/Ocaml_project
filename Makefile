@@ -29,4 +29,15 @@ test:
 	./ftest.native graphs/graph1.txt 0 5 outfile
 	@echo "\n==== CREATION DU GRAPH ==== (content of outfile) \n"
 	dot -Tsvg outfile > output-graph.svg
-	
+
+
+money:
+	@echo "\n==== CLEANING ====\n"
+	-rm -rf _build/
+	-rm moneySharing.native
+	@echo "\n==== COMPILING ====\n"
+	ocamlbuild moneySharing.native
+	@echo "\n==== TEST ====\n"
+	./moneySharing.native data.txt 0 1000 outfile
+	@echo "\n==== CREATION DU GRAPH ==== (content of outfile) \n"
+	dot -Tsvg outfile > output-graph.svg
