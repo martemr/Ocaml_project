@@ -5,11 +5,6 @@ open Printf
 open FordFulkerson
 
 
-
-(* let print_path p output_path =     *)
-(*   let ff = open_out output_path in *)
-(*   fprintf ff "test" ;;             *)
-
 let () =
 
   (* Check the number of command-line arguments *)
@@ -21,7 +16,6 @@ let () =
 
 
   (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
-
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(4)
 
@@ -32,40 +26,18 @@ let () =
   (* Open file *)
   let graph = from_file infile in
 
-  (* Rewrite the graph that has been read. *)
-  (*let graph1 = gmap graph (fun a -> (0,(int_of_string a))) in
-
-  let result_dfs = dfs graph1 source sink in
-  let () = printOptionList result_dfs in*)
-  
+  (** Calcule le fordFulkerson *)
   let new_gr = fordFulkerson graph source sink in 
-  (*let init_gr = init_graph graph in *)
 
-  let convert_string graph = 
-      gmap graph (fun (a,b) -> ((string_of_int a)^"/"^(string_of_int b))) in
+  (** Convertit le label d'un tuble à un string plus lisible *)
+  let convert_string graph sep = 
+      gmap graph (fun (a,b) -> ((string_of_int a)^sep^(string_of_int b))) in 
   
   
-  (*  let () = export (convert_string new_gr) outfile in *)
+  let () =  export (convert_string new_gr "/") outfile; (* Exporte le fichier au format pour créer le svg*)
+            write_file (outfile^".txt") (convert_string new_gr " ") (*Exporte le fichier au format txt pour l'affichage via site web *)
+            in
 
-  let () = write_file (outfile^".txt") (convert_string new_gr) in 
-
-(***TODO : Ecrire dans un fichier  *)
-
-  
-  (* let new_gr1=add_arc new_gr 0 2 100 in
-
-  let new_gr2= gmap new_gr1 (string_of_int) in 
-
-  let () = export new_gr2 outfile in
 
   ()
-
-  *)
-
-  (*let () = dfs new_gr 0 5 in
-
-  let () = print_path l output in*)
-
-  ()
-  (* *)
 
