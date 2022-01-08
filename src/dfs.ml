@@ -1,19 +1,12 @@
 open Graph
 
-(* Faire attention au chemin saturé
-    Label du chemin entre a et b de type (x, y), si x=0, il n'y a pas de chemin de b vers a,
-    si x=y pas de chemin de a vers b.
-    Dans les autres cas, le chemin est dans les deux sens.
- *)
-
-(* Called like find_not_marked_son graph node (out_arcs g node) marked_nodes *)
-(** Get the first son not marked. *)
-
+(* Convertit un type option en un normal*)
 let convert_option arc =
     match arc with
         | Some z -> z
         | None -> (-1,10000);;
 
+(* Cherche le premier fils non marqué *)
 let rec find_not_marked_son g father_node son_list marked_nodes =
     match son_list with
         | [] -> None
@@ -23,8 +16,8 @@ let rec find_not_marked_son g father_node son_list marked_nodes =
                 else Some x ;;
 
 
-(* Source et dest sont des id de nodes*)
-let dfs g source dest =
+(* Cherche un chemin en deep first search *)
+let dfs g source dest = (* Source et dest sont des id de nodes*)
     let rec loop g source dest marked_nodes acu = 
         match find_not_marked_son g source (out_arcs g source) marked_nodes with (* premier fils *)
             | None -> None (** Noeud puits *)

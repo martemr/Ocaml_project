@@ -27,7 +27,7 @@ test:
 	ocamlbuild ftest.native
 	@echo "\n==== TEST ====\n"
 	./ftest.native graphs/graph1.txt 0 5 outfile
-	@echo "\n==== CREATION DU GRAPH ==== (content of outfile) \n"
+	@echo "\n==== CREATION DU GRAPH ==== \n"
 	dot -Tsvg outfile > output-graph.svg
 
 
@@ -39,5 +39,5 @@ money:
 	ocamlbuild moneySharing.native
 	@echo "\n==== TEST ====\n"
 	./moneySharing.native data.txt 0 1000 outfile
-	@echo "\n==== CREATION DU GRAPH ==== (content of outfile) \n"
+	@echo "\n==== CREATION DU GRAPH ==== \n"
 	dot -Tsvg outfile > output-graph.svg

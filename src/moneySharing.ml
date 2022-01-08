@@ -1,4 +1,3 @@
-
 open Graph
 open Array
 
@@ -7,10 +6,11 @@ open Tools
 open Dfs
 open Printf
 open FordFulkerson
+open ReadFile
 
 open Ftest
 
-let read_line contributors_list line = 
+let read_line_input_data contributors_list line = 
   try Scanf.sscanf line "%d %s %d" (fun nb name money -> (nb, name,money,0)::contributors_list)
   with e ->
     Printf.printf "Cannot read conrbution in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
@@ -34,7 +34,7 @@ let read_datafile path =
 
         (* The first character of a line determines its content : n or e. *)
         else match line.[0] with
-          | _-> read_line list line
+          | _-> read_line_input_data list line
       in      
       loop list2
 
@@ -68,21 +68,16 @@ let rec create_nodes_graph graph = function
     []->graph
     |(x,_,_,_)::tl-> create_nodes_graph (new_node graph x) tl ;;
 
-let rec print_contri l =
-  match l with
-    []-> Printf.printf "\n"
-    |(x,y,money,diff)::tl ->  Printf.printf "(%d,%s,%d,%d), " x y money diff;print_contri tl;;
 
 let rec create_edges_graph graph contributors_list average_money= function
     []->graph
     |(x,name,money,0)::tl->graph
     |(x,name,money,diff)::tl when diff>0 -> create_edges_graph(new_arc graph x 1000 (string_of_int diff)) contributors_list average_money tl (* Arcs vers le puits *)
     |(x,name1,money,diff)::tl -> 
-        Printf.printf "contributors lst : "; print_contri contributors_list; Printf.printf "\n";
         let rec aux graph= function (* Créé les arcs entre les noeuds *)
             []->graph
-            |(y,name,money,dif)::tl when dif<=0 ->Printf.printf "Arcs partant de %s (%d,%s,%d,%d) \n" name1 y name money dif;aux graph tl
-            |(y,name,money,dif)::tl -> Printf.printf "Arcs partant de %s (%d,%s,%d,%d) \n" name1 y name money dif; aux (new_arc graph x y (string_of_int average_money)) tl in 
+            |(y,name,money,dif)::tl when dif<=0 ->aux graph tl
+            |(y,name,money,dif)::tl -> aux (new_arc graph x y (string_of_int average_money)) tl in 
 
         create_edges_graph(new_arc (aux graph contributors_list) 0 x (string_of_int (-diff))) contributors_list average_money tl;; (* Arcs de la source *)
 
@@ -105,14 +100,73 @@ let moneySharing input_file =
     create_edges_graph graph1 contributors_list1 average_money contributors_list1;;
 
 
+let rec endette l id = 
+  match l with
+    []-> false
+    |(x,_,_,diff)::tl when (x = id && diff<0)-> true
+    |(x,_,_,diff)::tl when x = id-> false
+    |hd::tl -> endette tl id;;
+  
+let rec namebyID l id =
+  match l with
+    []-> "Nom pas trouvé"
+    |(x,name,_,_)::tl when x = id-> name
+    |hd::tl -> namebyID tl id;;
 
+let read_line_output_data line contributors_list=
+
+  try Scanf.sscanf line "e %d %d %_d %s %_s@%%"
+        (fun id1 id2 label -> if (id1<>0 && id2<>1000 && (int_of_string label)>0 && (endette contributors_list id1))
+                              then Printf.printf " - %s doit %s à %s \n" (namebyID contributors_list id1) label (namebyID contributors_list id2))
+  with e ->
+    Printf.printf "Cannot read arc in line - %s:\n%s\n%!" (Printexc.to_string e) line ;
+    failwith "from_file"
+
+
+
+let display_results input_file output_file =
+  let infile = open_in output_file in
+
+  let contributors_list = read_datafile input_file in
+  (* Calcul total amount *)
+  let total = calcul_total contributors_list in
+  (* Calcul the average and diff each*)
+  let average_money = (total/(List.length contributors_list)) in
+  (* Calcul the diff each*)
+  let contributors_list1 = calcul_diff contributors_list average_money in
+    
+  (* Read all lines until end of file. *)
+  let rec loop x =
+    try
+      let line = input_line infile in
+
+      (* Remove leading and trailing spaces. *)
+      let line = String.trim line in
+
+      
+        (* Ignore empty lines *)
+        if line <> "" && (line.[0] == 'e') then (read_line_output_data line contributors_list1; loop x+1)
+        else loop x+1;
+      
+               
+    with End_of_file -> x (* Done *)
+  in
+
+  let final_graph = loop 0 in
+  
+  close_in infile ;
+  final_graph;;
+  
+  
+  
 let () = 
 
   (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
-  let infile = Sys.argv.(1) 
-  in  
-
-  let () = test_function (moneySharing infile)
-  in
-  ()
-            
+  let infile = Sys.argv.(1) in
+  let outfile = "outfile.txt"
+  in 
+  
+  let () = test_function (moneySharing infile) in
+  Printf.printf "\nResultats après exécution : \n";
+  Printf.printf "\nNombre d'arcs du graph : %d\n" (display_results infile outfile);
+  ();;
