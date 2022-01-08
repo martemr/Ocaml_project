@@ -37,6 +37,6 @@ Chaque exécution crée 3 fichiers:
     Commenter le contenu de ftest.ml 
     Utiliser la commande `make money` pour appliquer l'algorithme au fichier data.txt
     Les lignes du fichier data.txt doit être de la forme "[id] [Nom] [Contribution]" avec:
-        - [id] un int différent de 0 et 1000
-        - [Nom] un string ne contenant pas d'espace
-        - [Contribution] un int correspondant à la contribution de la personne
+ - [id] un int différent de 0 et 1000
+ - [Nom] un string ne contenant pas d'espace
+ - [Contribution] un int correspondant à la contribution de la personne
