@@ -26,6 +26,7 @@ Le projet est contenu dans le fichier FordFulkerson. Il utilise le fichier dfs p
 La partie Medium du projet est contenue dans le fichier moneySharing, qui est aussi utilisé pour tester cette partie. Ce programme est un algorithme de partage de coûts, où l'on donne la participation de chacun à un projet et l'algorithme nous dit qui doit combien à qui.
 
 Chaque exécution crée 3 fichiers :
+
     - 'oufile' : le graphe renvoyé par le programme au format compatible svg
     - 'oufile.txt' : le graphe renvoyé par le programme au format compatible au site https://algorithms.discrete.ma.tum.de/graph-algorithms/flow-ford-fulkerson/index_en.html
     - 'output-graph.svg' : l'image du graphe de retour 
@@ -37,6 +38,7 @@ Chaque exécution crée 3 fichiers :
     Commenter le contenu de ftest.ml 
     Utiliser la commande `make money` pour appliquer l'algorithme au fichier data.txt
     Les lignes du fichier data.txt doit être de la forme "[id] [Nom] [Contribution]" avec :
+    
         - [id] un int différent de 0 et 1000
         - [Nom] un string ne contenant pas d'espace
         - [Contribution] un int correspondant à la contribution de la personne
