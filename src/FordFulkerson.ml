@@ -1,6 +1,7 @@
 open Graph
 open Tools
 open Dfs
+open Printf
 
 
 let create_reverse_edges gr = (* *)
@@ -29,8 +30,8 @@ let convert_path gr l = (* *)
 let rec find_min_incr gr l =  (* *)
     match l with
         [] -> 999999
-        | [(current,dest,(flot,flotmax))]-> flotmax-flot 
-        |(current,dest,(flot,flotmax))::tl->min (flotmax-flot) (find_min_incr gr tl);;
+        | [(current,dest,(flot,flotmax))]-> Printf.printf ",%d" current; flotmax-flot
+        |(current,dest,(flot,flotmax))::tl->Printf.printf ",%d" current; min (flotmax-flot) (find_min_incr gr tl);;
 
 let maj_graph gr source dest l= (* *)
      let lbis = convert_path gr l in 
@@ -43,8 +44,9 @@ let maj_graph gr source dest l= (* *)
 
 let fordFulkerson gr source dest =
     let gr1 = (init_graph gr) in
-     let rec aux gr source dest = 
+      let rec aux gr source dest = 
         let l = dfs gr source dest in
+        Printf.printf "  lala\n";
         match l with
             None->gr
             |l->aux (maj_graph gr source dest l) source dest in 

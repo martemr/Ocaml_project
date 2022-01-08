@@ -68,17 +68,24 @@ let rec create_nodes_graph graph = function
     []->graph
     |(x,_,_,_)::tl-> create_nodes_graph (new_node graph x) tl ;;
 
+let rec print_contri l =
+  match l with
+    []-> Printf.printf "\n"
+    |(x,y,money,diff)::tl ->  Printf.printf "(%d,%s,%d,%d), " x y money diff;print_contri tl;;
+
 let rec create_edges_graph graph contributors_list average_money= function
     []->graph
-    |(x,_,money,0)::tl->graph
-    |(x,_,money,diff)::tl when diff>0 -> create_edges_graph(new_arc graph x 1000 (string_of_int diff)) contributors_list average_money tl (* Arcs vers le puits *)
-    |(x,_,money,diff)::tl -> 
-        let rec aux graph= function (* Créé les arces entre les noeuds *)
+    |(x,name,money,0)::tl->graph
+    |(x,name,money,diff)::tl when diff>0 -> create_edges_graph(new_arc graph x 1000 (string_of_int diff)) contributors_list average_money tl (* Arcs vers le puits *)
+    |(x,name1,money,diff)::tl -> 
+        Printf.printf "contributors lst : "; print_contri contributors_list; Printf.printf "\n";
+        let rec aux graph= function (* Créé les arcs entre les noeuds *)
             []->graph
-            |(y,_,money,diff)::tl when diff<=0 ->graph
-            |(y,_,money,diff)::tl -> aux (new_arc graph x y (string_of_int average_money)) tl in 
-    
+            |(y,name,money,dif)::tl when dif<=0 ->Printf.printf "Arcs partant de %s (%d,%s,%d,%d) \n" name1 y name money dif;aux graph tl
+            |(y,name,money,dif)::tl -> Printf.printf "Arcs partant de %s (%d,%s,%d,%d) \n" name1 y name money dif; aux (new_arc graph x y (string_of_int average_money)) tl in 
+
         create_edges_graph(new_arc (aux graph contributors_list) 0 x (string_of_int (-diff))) contributors_list average_money tl;; (* Arcs de la source *)
+
 
 let moneySharing input_file =
     (* Get input file *)
