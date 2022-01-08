@@ -26,9 +26,9 @@ Le projet est contenu dans le fichier FordFulkerson. Il utilise le fichier dfs p
 La partie Medium du projet est contenue dans le fichier moneySharing, qui est aussi utilisé pour tester cette partie. Ce programme est un algorithme de partage de coûts, où l'on donne la participation de chacun à un projet et l'algorithme nous dit qui doit combien à qui.
 
 Chaque exécution crée 3 fichiers:
-    - 'oufile' : le graphe renvoyé par le programme au format compatible svg
-    - 'oufile.txt' : le graphe renvoyé par le programme au format compatible au site https://algorithms.discrete.ma.tum.de/graph-algorithms/flow-ford-fulkerson/index_en.html
-    - 'output-graph.svg' : l'image du graphe de retour 
+ - 'oufile' : le graphe renvoyé par le programme au format compatible svg
+ - 'oufile.txt' : le graphe renvoyé par le programme au format compatible au site https://algorithms.discrete.ma.tum.de/graph-algorithms/flow-ford-fulkerson/index_en.html
+ - 'output-graph.svg' : l'image du graphe de retour 
 
 **Pour utiliser l'algorithme Ford Fulkerson :**
     `make test` applique l'algorithme au fichier graph1.txt du dossier graphs
